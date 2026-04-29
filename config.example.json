@@ -1,0 +1,25 @@
+{
+
+    "scraping": {
+        "pages_to_scrape": 3,
+        "items_per_page": 8,
+        "delay": 1,
+        "start_offset": "2026-04-25T00:00:00+02:00",
+        "state_file": "last_offset.txt"
+    },
+    "filters": {
+        "keywords": ["електрична"]
+    },
+    "output": {
+        "csv": "tenders.csv",
+        "json": "tenders.json"
+    },
+    "email": {
+        "from": "your_email@gmail.com",
+        "to": "recipient_email@gmail.com",
+        "password": "your_gmail_app_password",
+        "limit": 5
+    }
+
+}
+    

@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc 
+
+config.json
+scraper.log
+last_offset.txt
+tenders.json
+tenders.csv
