@@ -2,7 +2,7 @@ import time
 import requests
 import logging
 
-def scrape_tenders(config, offset):
+def scrape_tenders(config: dict, offset: str) -> tuple[list[dict], str]:
     logging.info("Начало скрапинга")
     rows = []
     pages_to_scrape = config["scraping"]["pages_to_scrape"]

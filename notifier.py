@@ -2,13 +2,13 @@ import smtplib
 from email.mime.text import MIMEText
 import logging
 
-def send_email(result, config):
+def send_email(result: list[dict], config: dict) -> None:
     try:
         email_from = config["email"]["from"]
         email_to = config["email"]["to"]
         password = config["email"]["password"]
         limit = config["email"]["limit"]
-
+    
         text = ""
 
         for tender in result[:limit]:

@@ -12,7 +12,7 @@ def clean_value(value):
         
         return value
     return value
-def clean_tender(tender):
+def clean_tender(tender: dict) -> dict:
     cleaned = {}
 
     for key, value in tender.items():
@@ -20,7 +20,7 @@ def clean_tender(tender):
 
     return cleaned
 
-def filter_tenders(tenders, keywords):
+def filter_tenders(tenders: list[dict], keywords: list[str]) -> list[dict]:
     
     if keywords == []:
         return tenders
@@ -38,7 +38,7 @@ def filter_tenders(tenders, keywords):
     
     return filtered
 
-def deduplicate(tenders, old_rows):
+def deduplicate(tenders: list[dict], old_rows: list[dict]) -> tuple[list[dict], list[dict], int]:
     unique_new_rows = []
     duplicates = 0  
     seen_url = set()
