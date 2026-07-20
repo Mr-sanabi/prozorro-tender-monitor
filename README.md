@@ -1,39 +1,37 @@
 # Prozorro Tender Monitor
 
-## What it does
+A configuration-driven Python monitor for collecting, filtering, deduplicating, and exporting public Prozorro tenders.
 
-Prozorro Tender Monitor is a Python tool that monitors tenders from the Prozorro API, filters them by configured keywords, removes duplicates, saves results to CSV/JSON, and sends new matching tenders to an email address.
+## Features
 
-## Installation
+- paginated API collection with request timeout and status validation;
+- normalized tender records and keyword filtering;
+- JSON history and CSV exports;
+- offset-based incremental runs;
+- optional SMTP notification for matching new tenders;
+- atomic history writes and delayed state advancement.
 
-```bash
-pip install -r requirements.txt
-```
-
-## Configuration
-
-Copy `config.example.json` to `config.json` and fill in your own values.
-
-Required fields:
-
-- `scraping.pages_to_scrape` — number of API pages to scan per run.
-- `scraping.items_per_page` — number of tenders to process from each page.
-- `scraping.delay` — delay between API requests.
-- `scraping.start_offset` — initial offset for the first run.
-- `scraping.state_file` — file where the last offset is stored.
-- `filters.keywords` — keywords used to filter tender titles.
-- `output.csv` — CSV output file.
-- `output.json` — JSON database file.
-- `email.from` — Gmail address used to send emails.
-- `email.to` — recipient email address.
-- `email.password` — Gmail App Password.
-- `email.limit` — maximum number of tenders included in one email.
-
-Do not commit real passwords or private email credentials to GitHub.
-
-## Run
+## Setup
 
 ```bash
-python main.py
+python -m pip install -r requirements.txt
+cp config.example.json config.json
+python main.py --config config.json
 ```
-    
+
+Review the paths, filters, and email settings in `config.json` before running it. The local config and generated state are ignored by Git.
+
+## Tests
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
+## Reliability contract
+
+The stored offset is advanced only after the output files are written. A failed API request therefore cannot silently skip unseen tenders on the next run.
+
+## Stack
+
+Python 3.11+, Requests, JSON, CSV, SMTP, pytest.
