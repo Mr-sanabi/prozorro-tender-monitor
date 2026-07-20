@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 import logging
 
-def send_email(result: list[dict], config: dict) -> None:
+def send_email(result: list[dict], config: dict) -> bool:
     try:
         email_from = config["email"]["from"]
         email_to = config["email"]["to"]
@@ -23,13 +23,13 @@ def send_email(result: list[dict], config: dict) -> None:
         msg["Subject"] = "Тендеры за сегодня:"
 
         logging.info("Подключение к SMTP...")
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-
-        server.starttls()
-        logging.info("Отправка письма...")
-        server.login(email_from, password)
-        server.sendmail(email_from, email_to, msg.as_string())
-        server.quit()
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as server:
+            server.starttls()
+            logging.info("Отправка письма...")
+            server.login(email_from, password)
+            server.sendmail(email_from, email_to, msg.as_string())
         logging.info("Письмо отправлено")
-    except Exception as e:
+        return True
+    except (smtplib.SMTPException, OSError) as e:
         logging.error(f"Ошибка отправки: {e}")
+        return False

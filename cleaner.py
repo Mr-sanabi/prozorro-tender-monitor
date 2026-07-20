@@ -28,8 +28,7 @@ def filter_tenders(tenders: list[dict], keywords: list[str]) -> list[dict]:
     filtered = []
 
     for item in tenders:
-        title = item["Название"]
-        title = title.lower()
+        title = str(item.get("Название") or "").lower()
 
         for i in keywords:
             if i.lower() in title:
@@ -43,10 +42,10 @@ def deduplicate(tenders: list[dict], old_rows: list[dict]) -> tuple[list[dict], 
     duplicates = 0  
     seen_url = set()
     for item in old_rows:
-        url = item["Ссылка"]
+        url = item.get("Ссылка")
         seen_url.add(url)
     for new_rows in tenders:
-        url = new_rows["Ссылка"]
+        url = new_rows.get("Ссылка")
 
         if url not in seen_url:
             seen_url.add(url)

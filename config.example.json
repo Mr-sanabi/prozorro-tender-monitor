@@ -12,7 +12,8 @@
     },
     "output": {
         "csv": "tenders.csv",
-        "json": "tenders.json"
+        "json": "tenders.json",
+        "log": "logs/scraper.log"
     },
     "email": {
         "from": "your_email@gmail.com",
@@ -22,4 +23,3 @@
     }
 
 }
-    
