@@ -1,25 +1,17 @@
 # Prozorro Tender Monitor
 
-A configuration-driven Python monitor for collecting, filtering, deduplicating, and exporting public Prozorro tenders.
+A Python 3.11+ script that collects public tenders, filters them by keywords, and saves JSON history and CSV exports.
 
-## Features
+## Run
 
-- paginated API collection with request timeout and status validation;
-- normalized tender records and keyword filtering;
-- JSON history and CSV exports;
-- offset-based incremental runs;
-- optional SMTP notification for matching new tenders;
-- atomic history writes and delayed state advancement.
-
-## Setup
+Copy `config.example.json` to `config.json` and set paths, filters, and optional SMTP settings. Keep credentials local.
 
 ```bash
 python -m pip install -r requirements.txt
-cp config.example.json config.json
 python main.py --config config.json
 ```
 
-Review the paths, filters, and email settings in `config.json` before running it. The local config and generated state are ignored by Git.
+Runs incrementally using a saved API offset. The offset advances after outputs are saved; failed requests leave it unchanged. Email notifications are optional.
 
 ## Tests
 
@@ -27,11 +19,3 @@ Review the paths, filters, and email settings in `config.json` before running it
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
 ```
-
-## Reliability contract
-
-The stored offset is advanced only after the output files are written. A failed API request therefore cannot silently skip unseen tenders on the next run.
-
-## Stack
-
-Python 3.11+, Requests, JSON, CSV, SMTP, pytest.
